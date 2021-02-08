@@ -20,13 +20,27 @@ class Main {
   //The user's input
   static char userInput;
   //Image
-  static JLabel imgLabel = new JLabel(new ImageIcon("gallows.png"));
+  static JLabel imgLabel = new JLabel(new ImageIcon("hanging.png"));
+  //Image
+  static JLabel headLabel = new JLabel(new ImageIcon("head.png"));
+  //Image
+  static JLabel bodyLabel = new JLabel(new ImageIcon("body.png"));
+  //Image
+  static JLabel rarmLabel = new JLabel(new ImageIcon("rightArm.png"));
+  //Image
+  static JLabel larmLabel = new JLabel(new ImageIcon("leftArm.png"));
+  //Image
+  static JLabel rlegLabel = new JLabel(new ImageIcon("rightLeg.png"));
+  //Image
+  static JLabel llegLabel = new JLabel(new ImageIcon("leftLeg.png"));
   //Button to process text in textBox
   static JButton button = new JButton("Enter");
   //Boolean to determine if word is guessed
   static boolean wordIsGuessed = false;
   //Boolean to determine if text in textBox is processing
   static boolean buttonPressed = false;
+  //To draw hangman on when letter is incorrect
+  static int hangPerson = 0;
  
   //To create parts of the GUI
   public static void main(String[] args) {
@@ -41,28 +55,20 @@ class Main {
     textBox.setFocusable(true);
     button.setBounds(325, 350, 100, 25);
     imgLabel.setBounds(300, 100, 100, 200);
+    headLabel.setBounds(347, 115, 50, 50);
+    bodyLabel.setBounds(295, 160, 80, 75);
+    rarmLabel.setBounds(343, 125, 90, 100);
+    larmLabel.setBounds(310, 125, 90, 100);
+    rlegLabel.setBounds(343, 200, 100, 100);
+    llegLabel.setBounds(300, 200, 100, 100);
     jFrame.add(label);
     jFrame.add(letterLabel);
     jFrame.add(textBox);
     jFrame.add(button);
     jFrame.add(imgLabel);
-
-    BufferedImage myPicture = null; 
-       try {                
-            myPicture = ImageIO.read(new File("gallows.png"));
-       } catch (IOException ex) {
-         System.out.println(ex);
-       }
-    JLabel gallowsLabel = new JLabel(new ImageIcon(myPicture));
-    JPanel gallowsPanel = new JPanel();
-     gallowsPanel.setBounds(200, 500, 0, 500);
-    gallowsPanel.add(gallowsLabel);
-    jFrame.getContentPane().add(gallowsPanel);
-    jFrame.setVisible(true); 
-   
-
+    
     //Possible words for game
-    String[] words = {"game", "random", "java", "coding", "method"}; //add words
+    String[] words = {"game", "random", "java", "coding", "method"};
 
     //To pick random word
     int randomWordNum = (int) (Math.random() * words.length);
@@ -163,12 +169,33 @@ class Main {
         letterLabel.setText(userInput + " is not in the word");
         //word not being processed
         buttonPressed = false;
-
+        hangPerson++;
+        if (hangPerson == 1) {
+          jFrame.add(headLabel);
+        }
+        else if (hangPerson == 2) {
+          jFrame.add(bodyLabel);
+        }
+        else if (hangPerson == 3) {
+          jFrame.add(rarmLabel);
+        }
+        else if (hangPerson == 4) {
+          jFrame.add(larmLabel);
+        }
+        else if (hangPerson == 5) {
+          jFrame.add(rlegLabel);
+        }
+        else if (hangPerson == 6) {
+          jFrame.add(llegLabel);
+          label.setText("You lose! The correct word was " + word);
+          letterLabel.setText("");
+        }
         return 0;
       }
     }
     return 2;
     }
+
 
     //Prints boxes for letters not guessed
     //Returns false if not
@@ -231,4 +258,5 @@ class Main {
       return i;
 
     }
+
   }
